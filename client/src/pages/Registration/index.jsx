@@ -30,7 +30,7 @@ const Registration = () => {
         >
           Зарегистрироваться
         </Button>
-        <Link to="/auth/login">
+        <Link to="/login">
           <Button
             className={s.button}
             type="submit"
