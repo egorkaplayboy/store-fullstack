@@ -2,20 +2,20 @@ import React from "react";
 import s from "./Items.module.css";
 import { Link } from "react-router-dom";
 
-const Item = () => {
+const Item = ({imageUrl, title, price}) => {
   return (
     <div className={s.card}>
       <img
         className={s.img}
-        src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
-        alt="item"
+        src={imageUrl}
+        alt={title}
       />
       <Link className="link" to={`/products/`}>
         <h3 className={s.title}>
-          Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops
+          {title}
         </h3>
       </Link>
-      <p className={s.price}>Цена: 225 ₽</p>
+      <p className={s.price}>Цена: {price} ₽</p>
     </div>
   );
 };

@@ -6,19 +6,24 @@ import s from "./Header.module.css";
 import { IconButton, Typography } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectIsAuth } from "../../Redux/Slices/AuthSlice";
+import {
+  fetchAuthMe,
+  logout,
+  selectIsAuth,
+} from "../../Redux/Slices/AuthSlice";
 
 const Header = () => {
   const isAuth = useSelector(selectIsAuth);
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.auth.data);
+  const username = data ? data.username : null
 
   const onClickLogout = () => {
     if (window.confirm("Вы действительно хотите выйти?")) {
-      dispatch(logout())
-      window.localStorage.removeItem("token")
+      dispatch(logout());
+      window.localStorage.removeItem("token");
     }
-  }
+  };
   return (
     <div className={s.root}>
       <Container maxWidth="lg">
@@ -29,7 +34,9 @@ const Header = () => {
           <div className={s.nav}>
             {isAuth ? (
               <>
-                <Typography className={s.nav_item}>username</Typography>
+                <Typography className={s.nav_item}>
+                  {username ? username : ""}
+                </Typography>
                 <Link to="/cart">
                   <IconButton className={s.nav_item}>
                     <ShoppingCartOutlinedIcon />

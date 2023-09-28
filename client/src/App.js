@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
@@ -6,7 +7,13 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Header from "./components/Header";
 import { Container } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { fetchAuthMe } from "./Redux/Slices/AuthSlice";
 function App() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(fetchAuthMe());
+  }, []);
   return (
     <div className="App">
       <Header />

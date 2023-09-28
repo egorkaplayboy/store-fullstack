@@ -4,25 +4,89 @@ import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import s from "./Registration.module.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRegister, selectIsAuth } from "../../Redux/Slices/AuthSlice";
 
 const Registration = () => {
+  const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    defaultValues: {
+      username: "JustUser",
+      email: "demo@mail.com",
+      password: "12345",
+    },
+    mode: "onChange",
+  });
+
+  const onSumbit = async (values) => {
+    const data = await dispatch(fetchRegister(values));
+    console.log(data)
+
+    if (!data.payload) {
+      return alert(`Не удалось зарегистрироваться`);
+    }
+    if ("token" in data.payload) {
+      window.localStorage.setItem("token", data.payload.token);
+    }
+  };
+  if (isAuth) {
+    return <Navigate to="/" />
+  }
+
   return (
     <Paper className={s.root}>
       <Typography className={s.title} variant="h5">
         Создание аккаунта
       </Typography>
-      <form>
-        <TextField className={s.field} label="Полное имя" fullWidth />
-        <TextField type="email" className={s.field} label="E-Mail" fullWidth />
+      <form onSubmit={handleSubmit(onSumbit)}>
+        <TextField
+          className={s.field}
+          label="Полное имя"
+          fullWidth
+          error={Boolean(errors.fullName?.message)}
+          helperText={errors.fullName?.message}
+          {...register("username", {
+            required: "Укажите полное имя",
+            minLength: {
+              value: 4,
+              message: "Имя должно содержать минимум 4 символа",
+            },
+          })}
+        />
+        <TextField
+          type="email"
+          className={s.field}
+          label="E-Mail"
+          fullWidth
+          error={Boolean(errors.email?.message)}
+          helperText={errors.email?.message}
+          {...register("email", { required: "Укажите почту" })}
+        />
         <TextField
           type="password"
           className={s.field}
           label="Пароль"
+          error={Boolean(errors.password?.message)}
+          helperText={errors.password?.message}
+          {...register("password", {
+            required: "Укажите пароль",
+            minLength: {
+              value: 5,
+              message: "Пароль должен содержать минимум 5 символов",
+            },
+          })}
           fullWidth
         />
         <Button
           className={s.button}
+          disabled={!isValid}
           type="submit"
           size="large"
           variant="contained"
@@ -33,7 +97,6 @@ const Registration = () => {
         <Link to="/login">
           <Button
             className={s.button}
-            type="submit"
             size="small"
             variant="outlined"
             fullWidth

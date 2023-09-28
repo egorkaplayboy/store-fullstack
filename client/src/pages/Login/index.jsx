@@ -75,6 +75,7 @@ const Login = () => {
           type="submit"
           size="large"
           variant="contained"
+          disabled={!isValid}
           fullWidth
         >
           Войти

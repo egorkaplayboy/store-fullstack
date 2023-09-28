@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { body, validationResult } from "express-validator";
-import { isAdmin } from "./product.js";
+import { checkAuth } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -94,6 +94,23 @@ router.post("/make-admin", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Ошибка изменения роли пользователя" });
+  }
+});
+router.get("/me", checkAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "Пользователь не найден",
+      });
+    }
+    res.status(200).json({ ...user._doc });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      message: "Нет доступа",
+    });
   }
 });
 
