@@ -22,6 +22,23 @@ router.get("/all", async (req, res) => {
   }
 });
 
+// Получить один товар
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Товар не найден" });
+    }
+    res.status(200).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Ошибка получения товара" });
+  }
+});
+
 // Создать новый товар
 router.post("/new", checkAuth, isAdmin, async (req, res) => {
   try {

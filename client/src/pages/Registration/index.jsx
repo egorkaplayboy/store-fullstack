@@ -8,6 +8,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRegister, selectIsAuth } from "../../Redux/Slices/AuthSlice";
+import { Alert } from "@mui/material";
 
 const Registration = () => {
   const isAuth = useSelector(selectIsAuth);
@@ -17,27 +18,22 @@ const Registration = () => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    defaultValues: {
-      username: "JustUser",
-      email: "demo@mail.com",
-      password: "12345",
-    },
     mode: "onChange",
   });
+  const [showErrorReg, setShowErrorReg] = React.useState(false);
 
   const onSumbit = async (values) => {
     const data = await dispatch(fetchRegister(values));
-    console.log(data)
 
     if (!data.payload) {
-      return alert(`Не удалось зарегистрироваться`);
+      setShowErrorReg(true);
     }
     if ("token" in data.payload) {
       window.localStorage.setItem("token", data.payload.token);
     }
   };
   if (isAuth) {
-    return <Navigate to="/" />
+    return <Navigate to="/" />;
   }
 
   return (
@@ -105,6 +101,11 @@ const Registration = () => {
           </Button>
         </Link>
       </form>
+      {showErrorReg && (
+        <Alert severity="error" onClose={() => setShowErrorReg(false)}>
+          Не удалось зарегистрироваться
+        </Alert>
+      )}
     </Paper>
   );
 };

@@ -11,6 +11,7 @@ export const checkAuth = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, "secret123");
+    req.user = decoded
     req.userId = decoded._id
     next();
   } catch (error) {

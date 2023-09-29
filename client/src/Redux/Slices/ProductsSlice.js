@@ -8,6 +8,13 @@ export const fetchProducts = createAsyncThunk(
     return data;
   }
 );
+export const fetchAddProduct = createAsyncThunk(
+  "products/fetchAddProduct",
+  async () => {
+    const { data } = await axios.post("/products/new");
+    return data;
+  }
+);
 
 const initialState = {
   products: {

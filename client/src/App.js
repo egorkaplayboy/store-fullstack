@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import { Container } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { fetchAuthMe } from "./Redux/Slices/AuthSlice";
+import Admin from "./pages/Admin";
 function App() {
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/products/:id" element={<FullItem />} />
           <Route path="/login" element={<Login />} />
           <Route path="/auth/register" element={<Registration />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </Container>
     </div>

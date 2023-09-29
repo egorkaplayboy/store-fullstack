@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -14,4 +15,20 @@ body {
 }
 .cart {
   background-color: #fff;
+}
+.admin__item {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+}
+.centered-grid-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.fullItem__img img {
+  height: 250px;
+  object-fit: cover;
+  object-position: center;
 }

@@ -15,7 +15,16 @@ const Home = () => {
   }, [dispatch]);
 
   return (
-    <Grid container spacing={4}>
+    <Grid
+      container
+      spacing={4}
+      sx={{
+        backgroundColor: "#fff",
+        borderRadius: 3,
+        marginTop: 7,
+        padding: 3,
+      }}
+    >
       {productsLoading
         ? [...Array(6)].map((index) => (
             <Grid item xs={12} sm={6} md={4}>
@@ -23,12 +32,15 @@ const Home = () => {
             </Grid>
           ))
         : products.items.map((item) => (
-            <Grid item xs={12} sm={6} md={4}>
-              <Item
-                imageUrl={item.imageUrl}
-                title={item.name}
-                price={item.price}
-              />
+            <Grid item xs={12} sm={6} md={4} className="centered-grid-item">
+              <div className="grid-item">
+                <Item
+                  imageUrl={item.imageUrl}
+                  title={item.name}
+                  price={item.price}
+                  id={item._id}
+                />
+              </div>
             </Grid>
           ))}
     </Grid>

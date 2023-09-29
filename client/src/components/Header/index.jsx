@@ -6,17 +6,14 @@ import s from "./Header.module.css";
 import { IconButton, Typography } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchAuthMe,
-  logout,
-  selectIsAuth,
-} from "../../Redux/Slices/AuthSlice";
+import { logout, selectIsAuth } from "../../Redux/Slices/AuthSlice";
 
 const Header = () => {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const data = useSelector((state) => state.auth.data);
-  const username = data ? data.username : null
+  const username = data ? data.username : null;
+  const isAdmin = data ? data.role === "admin" : false;
 
   const onClickLogout = () => {
     if (window.confirm("Вы действительно хотите выйти?")) {
@@ -34,6 +31,17 @@ const Header = () => {
           <div className={s.nav}>
             {isAuth ? (
               <>
+                {isAdmin && (
+                  <Link to="/admin">
+                    <Button
+                      className={s.nav_item}
+                      variant="contained"
+                      color="primary"
+                    >
+                      Админ панель
+                    </Button>
+                  </Link>
+                )}
                 <Typography className={s.nav_item}>
                   {username ? username : ""}
                 </Typography>

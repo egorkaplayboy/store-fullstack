@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { body, validationResult } from "express-validator";
 import { checkAuth } from "../middleware/auth.js";
+import { isAdmin } from "./product.js";
 
 const router = express.Router();
 
@@ -38,9 +39,13 @@ router.post(
       const hashedPassword = await bcrypt.hash(password, 7);
 
       const newUser = new User({ username, email, password: hashedPassword });
+      const token = jwt.sign({ _id: newUser._id, role: newUser.role }, "secret123", {
+        expiresIn: "30d",
+      });
+      newUser.token = token
       await newUser.save();
 
-      res.status(201).json({ message: "Пользователь успешно зарегистрирован" });
+      res.status(201).json({ ...newUser._doc, token });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Ошибка регистрации пользователя" });
@@ -78,7 +83,7 @@ router.post(
 );
 
 // Маршрут для установки роли "admin" для пользователя
-router.post("/make-admin", async (req, res) => {
+router.post("/make-admin", checkAuth, isAdmin, async (req, res) => {
   try {
     const { userId } = req.body;
     const userToUpdate = await User.findById(userId);

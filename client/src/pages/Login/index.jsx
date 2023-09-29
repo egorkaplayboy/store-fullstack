@@ -19,10 +19,6 @@ const Login = () => {
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange",
-    defaultValues: {
-      email: "notadmin@mail.ru",
-      password: "11111",
-    },
   });
 
   const onSubmit = async (values) => {
