@@ -1,74 +1,93 @@
-import { Button, Container, Typography } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import { Alert, Button, Container, Typography } from "@mui/material";
+import React from "react";
 import { useParams } from "react-router-dom";
 import axios from "../axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../Redux/Slices/CartSlice";
 
 const FullItem = () => {
   const { id } = useParams();
-  const [itemData, setItemData] = useState(null);
+  const [itemData, setItemData] = React.useState(null);
+  const [showIsAdded, setShowIsAdded] = React.useState(false);
+  const dispatch = useDispatch();
+  const handleAddToCart = () => {
+    dispatch(addToCart(itemData));
+    setShowIsAdded(true);
+  };
 
-  useEffect(() => {
+  React.useEffect(() => {
     axios.get(`/products/${id}`).then((response) => {
       setItemData(response.data);
     });
   }, [id]);
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: "20px",
-        backgroundColor: "#fff",
-        borderRadius: 3,
-        marginTop: 7,
-        padding: 10,
-      }}
-    >
-      {itemData ? (
-        <>
-          <div className="fullItem__img">
-            <img src={itemData.imageUrl} alt={itemData.name} />
-          </div>
-          <div>
-            <Typography
-              variant="h2"
-              sx={{
-                fontSize: "24px",
-                fontWeight: "bold",
-                marginBottom: "10px",
-              }}
-            >
-              {itemData.name}
-            </Typography>
-            <Typography variant="body1" sx={{ marginBottom: "20px" }}>
-              {itemData.description}
-            </Typography>
-            <div style={{ display: "flex" }}>
+    <>
+      {showIsAdded && (
+        <Alert onClose={() => setShowIsAdded(false)} severity="success">
+          Товар успешно добавлен в корзину
+        </Alert>
+      )}
+      <Container
+        maxWidth="lg"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: "20px",
+          backgroundColor: "#fff",
+          borderRadius: 3,
+          marginTop: 7,
+          padding: 10,
+        }}
+      >
+        {itemData ? (
+          <>
+            <div className="fullItem__img">
+              <img src={itemData.imageUrl} alt={itemData.name} />
+            </div>
+            <div>
               <Typography
-                variant="h6"
+                variant="h2"
                 sx={{
+                  fontSize: "24px",
                   fontWeight: "bold",
                   marginBottom: "10px",
-                  flexGrow: 1,
                 }}
               >
-                Цена: {itemData.price} ₽
+                {itemData.name}
               </Typography>
-              <Button variant="contained" sx={{ fontWeight: "bold" }}>
-                Добавить
-              </Button>
+              <Typography variant="body1" sx={{ marginBottom: "20px" }}>
+                {itemData.description}
+              </Typography>
+              <div style={{ display: "flex" }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                    flexGrow: 1,
+                  }}
+                >
+                  Цена: {itemData.price} ₽
+                </Typography>
+                <Button
+                  onClick={handleAddToCart}
+                  variant="contained"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  Добавить
+                </Button>
+              </div>
             </div>
+          </>
+        ) : (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress />
           </div>
-        </>
-      ) : (
-        <div style={{display: "flex", justifyContent: "center"}}>
-          <CircularProgress />
-        </div>
-      )}
-    </Container>
+        )}
+      </Container>
+    </>
   );
 };
 

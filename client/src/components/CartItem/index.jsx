@@ -1,17 +1,26 @@
 import React from "react";
 import s from "./CartItem.module.css";
 import Button from "@mui/material/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart } from "../../Redux/Slices/CartSlice";
 
-const CartItem = () => {
+const CartItem = ({ title, price, imageUrl, _id }) => {
+  const dispatch = useDispatch();
+
+  const handleRemoveCartItem = (_id) => {
+    dispatch(removeFromCart(_id));
+  };
   return (
     <div className={s.cartItem}>
-      <img
-        src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
-        alt="Товар 1"
-      />
-      <h2>Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops</h2>
-      <p>Цена: $20.00</p>
-      <Button variant="contained" color="error" size="large">
+      <img src={imageUrl} alt={title} />
+      <h2>{title}</h2>
+      <p>Цена: ${price}</p>
+      <Button
+        onClick={() => handleRemoveCartItem(_id)}
+        variant="contained"
+        color="error"
+        size="large"
+      >
         Удалить
       </Button>
     </div>

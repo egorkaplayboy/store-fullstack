@@ -8,7 +8,9 @@
   align-items: center;
   scale: 1;
   transition: transform 0.1s ease;
+  justify-content: space-between;
 }
+
 .card:hover {
   transform: scale(1.05);
 }

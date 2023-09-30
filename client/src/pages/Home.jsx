@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { CardContent, Grid } from "@mui/material";
 import React from "react";
 import Item from "../components/Item";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,20 +27,28 @@ const Home = () => {
     >
       {productsLoading
         ? [...Array(6)].map((index) => (
-            <Grid item xs={12} sm={6} md={4}>
-              <Skeleton />
+            <Grid key={index} item xs={12} sm={6} md={4}>
+              <CardContent>
+                <Skeleton />
+              </CardContent>
             </Grid>
           ))
         : products.items.map((item) => (
-            <Grid item xs={12} sm={6} md={4} className="centered-grid-item">
-              <div className="grid-item">
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              key={item._id}
+            >
+              <CardContent className="centered-grid-item">
                 <Item
                   imageUrl={item.imageUrl}
                   title={item.name}
                   price={item.price}
                   id={item._id}
                 />
-              </div>
+              </CardContent>
             </Grid>
           ))}
     </Grid>
