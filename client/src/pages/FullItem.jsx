@@ -34,11 +34,6 @@ const FullItem = () => {
 
   return (
     <>
-      {showIsAdded && (
-        <Alert onClose={() => setShowIsAdded(false)} severity="success">
-          Товар успешно добавлен в корзину
-        </Alert>
-      )}
       <Container
         maxWidth="lg"
         sx={{
@@ -97,6 +92,13 @@ const FullItem = () => {
           </div>
         )}
       </Container>
+      <div>
+        {showIsAdded && (
+          <Alert onClose={() => setShowIsAdded(false)} severity="success">
+            Товар успешно добавлен в корзину
+          </Alert>
+        )}
+      </div>
     </>
   );
 };
