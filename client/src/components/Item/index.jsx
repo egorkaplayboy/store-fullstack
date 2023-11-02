@@ -10,7 +10,7 @@ const Item = ({ imageUrl, title, price, id }) => {
 
         <h3 className={s.title}>{title}</h3>
       </Link>
-      <p className={s.price}>Цена: {price} ₽</p>
+      <p className={s.price}>Цена: {price} $</p>
     </div>
   );
 };
