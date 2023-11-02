@@ -3,7 +3,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import axios from "../axios";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../Redux/Slices/CartSlice";
 
 const FullItem = () => {
@@ -11,8 +11,18 @@ const FullItem = () => {
   const [itemData, setItemData] = React.useState(null);
   const [showIsAdded, setShowIsAdded] = React.useState(false);
   const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+
   const handleAddToCart = () => {
-    dispatch(addToCart(itemData));
+    const selectedItem = { ...itemData, quantity: 1 };
+    const itemInCart = cartItems.find((item) => item._id === selectedItem._id);
+
+    if (itemInCart) {
+      dispatch(addToCart({ ...itemInCart, quantity: itemInCart.quantity + 1 }));
+    } else {
+      dispatch(addToCart(selectedItem));
+    }
+
     setShowIsAdded(true);
   };
 

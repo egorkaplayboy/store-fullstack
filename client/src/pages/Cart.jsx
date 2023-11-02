@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "../Redux/Slices/CartSlice";
 
 const Cart = () => {
-  const items = useSelector((state) => state.cart.items);
-  const dispatch = useDispatch()
+  const cartItems = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
 
   const onClickClear = () => {
-    dispatch(clearCart())
-  }
+    dispatch(clearCart());
+  };
+
   return (
     <Container
       maxWidth="lg"
@@ -22,24 +23,42 @@ const Cart = () => {
         padding: 3,
       }}
     >
-      <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <h1>Корзина</h1>
-        <p onClick={onClickClear} style={{color: "gray", cursor: "pointer"}}>Очистить корзину</p>
+        <p onClick={onClickClear} style={{ color: "gray", cursor: "pointer" }}>
+          Очистить корзину
+        </p>
       </div>
       <Grid container spacing={4}>
         <Grid item xs={12}>
-          {items.length > 0 ? (
-            items.map((item) => (
+          {cartItems.length > 0 ? (
+            cartItems.map((item) => (
               <CartItem
                 key={item._id}
                 title={item.name}
                 price={item.price}
                 imageUrl={item.imageUrl}
                 _id={item._id}
+                quantity={item.quantity}
               />
             ))
           ) : (
-            <div style={{display: "flex", justifyContent: "center", margin: "100px auto", fontWeight: "bold"}}>Корзина пуста</div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                margin: "100px auto",
+                fontWeight: "bold",
+              }}
+            >
+              Корзина пуста
+            </div>
           )}
         </Grid>
       </Grid>
