@@ -7,6 +7,10 @@
   font-size: 15px;
   font-weight: 600;
   outline: none;
+  transition: width .1s ease;
+}
+.search:focus {
+  width: 320px;
 }
 .search__svg {
   position: absolute;

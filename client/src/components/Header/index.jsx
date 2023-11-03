@@ -60,9 +60,16 @@ const Header = () => {
                 </Button>
               </>
             ) : (
-              <Link to="/login">
-                <Button variant="contained">Войти</Button>
-              </Link>
+              <>
+                <Link to="/cart">
+                  <IconButton className={s.nav_item}>
+                    <ShoppingCartOutlinedIcon />
+                  </IconButton>
+                </Link>
+                <Link to="/login">
+                  <Button variant="contained">Войти</Button>
+                </Link>
+              </>
             )}
           </div>
         </div>

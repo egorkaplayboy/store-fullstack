@@ -20,7 +20,7 @@
   border-radius: 5px;
   padding: 0 10px;
   text-decoration: none;
-  transition: background-color .1s ease-out;
+  transition: background-color 0.1s ease-out;
 }
 .logo:hover {
   background-color: #4361ee;
@@ -32,5 +32,6 @@
 }
 .nav_item {
   margin-left: 20px !important;
+  margin-right: 20px !important;
   font-weight: bold !important;
 }
